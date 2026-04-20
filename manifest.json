@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "CODM Tactical HQ - Secure Ops",
+  "name": "MIL SPEC CIPHER PRO - PassGen ",
   "version": "1.0",
-  "description": "Dashboard táctico con encriptación PassGen integrada. Fan-made by ELBUHO89.",
+  "description": "Dashboard táctico con encriptación PassGen integrada. tematica militar Fan-made by ELBUHO89.",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
