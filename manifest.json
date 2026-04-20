@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "CODM Tactical HQ - Secure Ops",
+  "version": "1.0",
+  "description": "Dashboard táctico con encriptación PassGen integrada. Fan-made by ELBUHO89.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["geolocation", "storage", "clipboardWrite"]
+}

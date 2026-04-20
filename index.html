@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HQ Operations | EL BUHO 89 . ORG SAS</title>
+  
+  <link rel="icon" href="https://elbuho89.org/assets/img/favicon.png" type="image/png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --primary: #F5D547; /* Amarillo Búho */
+      --accent: #6d4aff;  /* Morado Proton */
+      --bg: #050607;
+      --card-bg: rgba(15, 17, 23, 0.85);
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 2% 2%, rgba(245, 213, 71, 0.05) 0%, transparent 40%),
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 100%, 100% 4px, 3px 100%;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      text-transform: uppercase;
+      overflow-x: hidden;
+    }
+
+    .font-tactical { font-family: 'JetBrains Mono', monospace; }
+
+    .glass-panel {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 2px solid var(--primary);
+    }
+
+    #main-clock {
+      font-size: clamp(3.5rem, 12vw, 7rem);
+      font-weight: 800;
+      letter-spacing: -4px;
+      line-height: 1;
+      filter: drop-shadow(0 0 15px rgba(245, 213, 71, 0.3));
+    }
+
+    /* Animación de escaneo */
+    .scanline {
+      width: 100%;
+      height: 100px;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(245, 213, 71, 0.02) 50%, rgba(0,0,0,0) 100%);
+      opacity: 0.1;
+      position: absolute;
+      bottom: 100%;
+      animation: scan 8s linear infinite;
+    }
+
+    @keyframes scan {
+      to { bottom: -100px; }
+    }
+
+    .btn-tactical {
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .btn-tactical:hover {
+      background: var(--primary);
+      color: #000;
+      box-shadow: 0 0 15px var(--primary);
+    }
+
+    .streak-icon {
+      width: 45px; height: 45px;
+      display: flex; items-center: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer; transition: 0.3s;
+    }
+    .streak-icon:hover { border-color: var(--primary); transform: translateY(-3px); }
+  </style>
+</head>
+<body class="p-4 md:p-8 relative">
+  <div class="scanline"></div>
+
+  <header class="flex justify-between items-start w-full max-w-7xl mx-auto z-20 relative">
+    <div class="flex items-center gap-4">
+      <div class="text-3xl bg-yellow-500/10 p-2 rounded-full border border-yellow-500/20">🦉</div>
+      <div>
+        <h1 class="font-bold tracking-[0.3em] text-xs md:text-sm">EL BUHO 89 . ORG SAS</h1>
+        <p id="quote-display" class="text-[9px] text-yellow-500/60 font-tactical lowercase">Iniciando protocolos de red...</p>
+      </div>
+    </div>
+    
+    <div class="text-right font-tactical text-[10px] space-y-1">
+      <div id="loc-status" class="text-blue-400">ESTABLECIENDO GPS...</div>
+      <div id="temp-display" class="text-2xl font-bold text-white">--°C</div>
+      <div class="text-gray-500">USR_IP: <span id="ip-addr" class="text-yellow-500/80">...</span></div>
+    </div>
+  </header>
+
+  <main class="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto w-full mt-10 z-20 relative">
+    
+    <div class="lg:col-span-4 space-y-6">
+      
+      <section class="glass-panel p-5 rounded-lg border-l-4 border-l-red-600">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-[10px] font-bold tracking-widest text-red-500 animate-pulse">● RADIO_ONLINE</span>
+          <span class="text-[9px] text-gray-500 font-tactical">HUB_113_SRV</span>
+        </div>
+        <div class="bg-black/60 p-3 rounded border border-white/5 mb-4">
+          <p id="track-name" class="text-[11px] text-gray-300 font-tactical lowercase h-8 overflow-hidden">
+            Cargando señal de audio...
+          </p>
+        </div>
+        <audio id="audio-engine" src="https://h113.hubuhost.com:8090/live.mp3"></audio>
+        <button id="radio-toggle" class="w-full btn-tactical py-3 rounded font-bold text-xs tracking-widest">
+          CONECTAR FRECUENCIA
+        </button>
+      </section>
+
+      <section class="glass-panel p-5 rounded-lg">
+        <h2 class="text-[10px] font-bold mb-3 tracking-widest">CIFRADO_PASSGEN</h2>
+        <div class="space-y-3">
+          <input type="text" id="pass-val" readonly placeholder="DATA_KEY" 
+                 class="w-full bg-black/80 border border-white/10 p-3 rounded font-tactical text-yellow-500 text-center">
+          <div class="flex gap-2">
+            <button id="btn-gen" class="flex-grow btn-tactical py-2 text-[10px] font-bold">GENERAR</button>
+            <button id="btn-copy" class="flex-grow btn-tactical py-2 text-[10px] font-bold">COPIAR</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="glass-panel p-5 rounded-lg border-t-blue-500">
+        <h2 class="text-[10px] font-bold mb-1 tracking-widest">RECO_SISTEMAS</h2>
+        <p class="text-[9px] text-gray-500 lowercase mb-3">Recibe actualizaciones de la red elbuho89.</p>
+        <form id="sub-form" class="flex gap-2">
+          <input type="email" id="sub-email" required placeholder="EMAIL_ADDR" 
+                 class="bg-black/50 border border-white/10 p-2 rounded text-[10px] flex-grow font-tactical">
+          <button type="submit" class="bg-blue-600 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 transition">ADD</button>
+        </form>
+        <div id="sub-msg" class="hidden mt-2 text-[9px] text-green-400 font-tactical"></div>
+      </section>
+    </div>
+
+    <div class="lg:col-span-8 flex flex-col items-center">
+      
+      <div id="main-clock" class="font-tactical">00:00:00</div>
+      <div class="flex gap-10 text-[10px] font-tactical text-gray-500 mb-10 tracking-[0.4em]">
+        <span>LOC_CO / <span id="data-day" class="text-white">--</span></span>
+        <span>MOD_OPS / <span id="data-month" class="text-white">--</span></span>
+      </div>
+
+      <div class="w-full max-w-2xl mb-10 group">
+        <div class="flex items-center bg-white/5 border border-white/10 px-6 py-4 rounded-full group-hover:border-yellow-500/50 transition-all duration-500">
+          <span class="text-yellow-500/40 mr-4 font-tactical text-sm">></span>
+          <input type="text" placeholder="BUSCAR EN LA RED ECOSISTEMA..." 
+                 class="bg-transparent border-none outline-none text-white w-full text-sm font-tactical placeholder:text-gray-700">
+          <span class="text-gray-600">USR_SRCH</span>
+        </div>
+      </div>
+
+      <div class="w-full glass-panel rounded-xl overflow-hidden shadow-2xl border-t-0">
+        <div class="bg-white/5 px-4 py-2 flex justify-between items-center border-b border-white/5">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></div>
+            <span class="text-[9px] font-bold tracking-widest text-gray-400">FEED_STREAM: RG_MUSIC_RECORDS</span>
+          </div>
+          <span class="text-[8px] font-tactical text-gray-600 italic">VIRTUAL_HQ_LINK</span>
+        </div>
+        <div class="aspect-video bg-black">
+          <iframe 
+            src="https://player.twitch.tv/?channel=elbuho89&parent=elbuho89.org&muted=true" 
+            height="100%" width="100%" allowfullscreen loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-6 mt-8">
+        <div class="streak-icon rounded" title="Main Site" onclick="window.open('https://elbuho89.org')">🌐</div>
+        <div class="streak-icon rounded" title="Contact" onclick="window.open('https://contacto.elbuho89.org')">📧</div>
+        <div class="streak-icon rounded" title="GitHub" onclick="window.open('https://github.com')">📁</div>
+        <div class="streak-icon rounded" title="Status" onclick="location.reload()">🔄</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-auto pt-10 text-center w-full max-w-7xl mx-auto">
+    <div class="h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent w-full mb-6"></div>
+    <p class="text-[9px] text-gray-600 tracking-[0.5em] mb-2 font-tactical">
+      EL BUHO 89 . ORG SAS | TECNOLOGÍA · SEGURIDAD · COMUNIDAD
+    </p>
+    <p class="text-[8px] text-gray-700 uppercase tracking-widest">
+      Colombia / Filosofía Kaizen / © 2026 Reservados todos los protocolos.
+    </p>
+  </footer>
+
+  <script>
+    /* --- LÓGICA DE SISTEMAS --- */
+
+    // 1. RELOJ Y FECHA
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('main-clock').textContent = now.toLocaleTimeString('es-CO', {hour12: false});
+      document.getElementById('data-day').textContent = String(now.getDate()).padStart(2, '0');
+      document.getElementById('data-month').textContent = String(now.getMonth() + 1).padStart(2, '0');
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // 2. PASSGEN (Lógica arreglada)
+    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    document.getElementById('btn-gen').addEventListener('click', () => {
+      let pass = "";
+      for (let i = 0; i < 16; i++) pass += charset.charAt(Math.floor(Math.random() * charset.length));
+      document.getElementById('pass-val').value = pass;
+    });
+
+    document.getElementById('btn-copy').addEventListener('click', () => {
+      const el = document.getElementById('pass-val');
+      if(el.value) {
+        navigator.clipboard.writeText(el.value);
+        const originalText = document.getElementById('btn-copy').innerText;
+        document.getElementById('btn-copy').innerText = "OK";
+        setTimeout(() => document.getElementById('btn-copy').innerText = originalText, 1500);
+      }
+    });
+
+    // 3. RADIO INTEGRADA (Lógica unificada de radio.php)
+    const audio = document.getElementById('audio-engine');
+    const radioBtn = document.getElementById('radio-toggle');
+    const trackLabel = document.getElementById('track-name');
+    
+    const playlist = [
+      "Simulación | Podcast: Noticias de la semana",
+      "Música Variada | Top Hits 2025",
+      "Tecnología | Review de IA por Buhopapaya",
+      "Ambiente Gaming | Lo-Fi & Beats"
+    ];
+
+    radioBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(e => console.log("Interacción requerida"));
+        radioBtn.textContent = "DESCONECTAR";
+        radioBtn.style.backgroundColor = "var(--primary)";
+        radioBtn.style.color = "#000";
+        trackLabel.textContent = "🎧 " + playlist[Math.floor(Math.random()*playlist.length)];
+      } else {
+        audio.pause();
+        radioBtn.textContent = "CONECTAR FRECUENCIA";
+        radioBtn.style.backgroundColor = "transparent";
+        radioBtn.style.color = "inherit";
+        trackLabel.textContent = "Señal en stand-by...";
+      }
+    });
+
+    // 4. APIS DE TERCEROS (IP & Clima)
+    fetch('https://api.ipify.org?format=json')
+      .then(r => r.json())
+      .then(d => document.getElementById('ip-addr').textContent = d.ip);
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      try {
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current_weather=true`);
+        const data = await res.json();
+        document.getElementById('temp-display').textContent = `${Math.round(data.current_weather.temperature)}°C`;
+        document.getElementById('loc-status').textContent = "LINK_GPS_ESTABLE";
+      } catch(e) { document.getElementById('loc-status').textContent = "ERROR_RADAR"; }
+    }, () => {
+      document.getElementById('loc-status').textContent = "GPS_DENEGADO";
+    });
+
+    // 5. FRASES Y SUBSCRIPCIÓN
+    const quotes = [
+      "Kaizen: Mejora continua en el código y en la vida.",
+      "Building networks globally, one node at a time.",
+      "Seguridad informática no es un producto, es un proceso.",
+      "Ecosistema elbuho89: Innovación responsable."
+    ];
+    document.getElementById('quote-display').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+    document.getElementById('sub-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('sub-email').value;
+      // Simulación de envío a proximamente.php
+      const msg = document.getElementById('sub-msg');
+      msg.textContent = "REGISTRO_EXITOSO_EN_REDECHO";
+      msg.classList.remove('hidden');
+      document.getElementById('sub-email').value = "";
+    });
+  </script>
+</body>
+</html>
