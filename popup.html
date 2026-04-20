@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="command-center">
+        <header class="top-bar">
+            <div class="op-tag">ELBUHO89.ORG</div>
+            <div class="intel-readout">
+                <span id="temp">--°C</span> | 
+            </div>
+        </header>
+
+        <section class="main-display">
+            <div class="lcd-screen">
+                <div id="pass-display" spellcheck="false">READY FOR INPUT <br> 1 <span id="btc-price">BTC: ...</span></div>
+            </div>
+            <div class="system-status">
+                <span>ZULU: <b id="zulu-clock">00:00:00</b></span>
+                <span id="user-date">00/00/202X</span>
+            </div>
+        </section>
+
+        <div class="control-grid">
+            <div class="slider-section">
+                <label>LONGITUD DE COMPLEJIDAD: <span id="length-val">16</span></label>
+                <input type="range" id="length-slider" min="4" max="100" value="16">
+            </div>
+
+            <div class="toggle-grid">
+                <label class="t-btn"><input type="checkbox" id="inc-upper" checked><span>ABCD</span></label>
+                <label class="t-btn"><input type="checkbox" id="inc-numbers" checked><span>1234</span></label>
+                <label class="t-btn"><input type="checkbox" id="inc-symbols" checked><span>@·$%</span></label>
+                <label class="t-btn"><input type="checkbox" id="inc-cyrillic" checked><span>КИР</span></label>
+                <label class="t-btn"><input type="checkbox" id="inc-chinese" checked><span>中文</span></label>
+                <label class="t-btn"><input type="checkbox" id="inc-japanese" checked><span>日本語</span></label>
+            </div>
+
+            <button id="generate" class="fire-btn">GENERAR SECUENCIA</button>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
